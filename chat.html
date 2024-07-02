@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chat</title>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h2>Chat Room</h2>
+    <div id="chatbox"></div>
+    <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <script>
+        const socket = io();
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+        const chatbox = document.getElementById('chatbox');
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+
+        socket.on('connect', () => {
+            socket.emit('join', username);  // Send the username to the server
+        });
+
+        socket.on('chat message', (msg) => {
+            chatbox.innerHTML += msg + '<br>';
+        });
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            socket.emit('chat message', messageInput.value);
+            messageInput.value = '';
+        });
+    </script>
+</body>
+</html>
