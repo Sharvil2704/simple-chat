@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Chat</title>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+    <form id="usernameForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        <input type="submit" value="Enter Chat">
+    </form>
+    <script>
+        const usernameForm = document.getElementById('usernameForm');
+        usernameForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            window.location.href = `/chat?username=${username}`;
+        });
+    </script>
+</body>
+</html>
